@@ -11,7 +11,7 @@ func New() *slog.Logger {
 		panic(err)
 	}
 	logger := slog.New(slog.NewTextHandler(file, &slog.HandlerOptions{
-		Level: slog.LevelDebug,
+		Level: slog.LevelError,
 	}))
 
 	return logger

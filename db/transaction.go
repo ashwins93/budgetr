@@ -26,7 +26,7 @@ func (d *Db) CreateTransaction(ctx context.Context, t *Transaction) error {
 	t.ID = id.String()
 	query := `INSERT INTO transactions 
 	(id, amount, description, effective_date, pinned) 
-	VALUES (?, ?, ?, ?)`
+	VALUES (?, ?, ?, ?, ?)`
 	d.log.Debug("executing query", slog.String("query", query))
 
 	res, err := d.db.ExecContext(ctx, query, t.ID, t.Amount, t.Description, t.EffectiveDate.Unix(), t.Pinned)
@@ -46,7 +46,7 @@ func (d *Db) GetTransactions(ctx context.Context, date time.Time) ([]*Transactio
 	start := time.Date(date.UTC().Year(), date.UTC().Month(), 1, 0, 0, 0, 0, time.UTC)
 	end := start.AddDate(0, 1, 0)
 
-	query := `SELECT id, amount, effective_date,
+	query := `SELECT id, amount, description, effective_date,
 		pinned FROM transactions
 		WHERE (effective_date >= ? AND effective_date < ?) OR (pinned = 1)`
 
@@ -65,7 +65,7 @@ func (d *Db) GetTransactions(ctx context.Context, date time.Time) ([]*Transactio
 		var t Transaction
 		var effectiveDate int64
 
-		err := rows.Scan(&t.ID, &t.Amount, &effectiveDate, &t.Pinned)
+		err := rows.Scan(&t.ID, &t.Amount, &t.Description, &effectiveDate, &t.Pinned)
 		if err != nil {
 			d.log.Error("error while scanning", slog.String("error", err.Error()))
 			return nil, err
@@ -101,7 +101,7 @@ func (d *Db) UpdateTransaction(ctx context.Context, t *Transaction) error {
 }
 
 func (d *Db) DeleteTransaction(ctx context.Context, id string) error {
-	query := `DELETE transactions WHERE id = ?`
+	query := `DELETE FROM transactions WHERE id = ?`
 
 	d.log.Debug("executing query", slog.String("query", query))
 	_, err := d.db.ExecContext(ctx, query, id)

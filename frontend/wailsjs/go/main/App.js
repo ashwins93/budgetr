@@ -6,10 +6,18 @@ export function CreateTransaction(arg1) {
   return window['go']['main']['App']['CreateTransaction'](arg1);
 }
 
+export function DeleteTransaction(arg1) {
+  return window['go']['main']['App']['DeleteTransaction'](arg1);
+}
+
 export function GetTransactions(arg1) {
   return window['go']['main']['App']['GetTransactions'](arg1);
 }
 
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
+}
+
+export function UpdateTransaction(arg1) {
+  return window['go']['main']['App']['UpdateTransaction'](arg1);
 }

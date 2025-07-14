@@ -4,6 +4,10 @@ import {db} from '../models';
 
 export function CreateTransaction(arg1:db.Transaction):Promise<db.Transaction>;
 
+export function DeleteTransaction(arg1:string):Promise<void>;
+
 export function GetTransactions(arg1:string):Promise<Array<db.Transaction>>;
 
 export function Greet(arg1:string):Promise<string>;
+
+export function UpdateTransaction(arg1:db.Transaction):Promise<void>;
