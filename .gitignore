@@ -1,0 +1,7 @@
+build/
+node_modules
+frontend/dist
+migrate.exe
+test.db
+.vscode
+logs.txt
